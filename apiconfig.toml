@@ -1,0 +1,6 @@
+[table]
+columns = ['business_status',
+        'formatted_address', 'formatted_phone_number',
+        'international_phone_number', 'name', 'place_id',
+        'types', 'url', 'website', 'current_opening_hours.weekday_text',
+        'geometry.location.lat', 'geometry.location.lng']

@@ -1,0 +1,30 @@
+[tool.poetry]
+name = "busca-negocios"
+version = "0.1.0"
+description = ""
+authors = ["Codetricksters <leonardo.magic@hotmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+pandas = "^2.2.0"
+requests = "^2.31.0"
+tomli = "^2.0.1"
+streamlit = "^1.30.0"
+numpy = "^1.26.3"
+openpyxl = "^3.1.2"
+googlemaps = "^4.10.0"
+tinydb = "^4.8.0"
+folium = "^0.15.1"
+streamlit-folium = "^0.18.0"
+
+
+[tool.poetry.group.dev.dependencies]
+jupyter = "^1.0.0"
+prospector = "^1.10.3"
+isort = "^5.13.2"
+blue = "0.9.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
