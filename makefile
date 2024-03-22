@@ -1,3 +1,3 @@
 install:
 	@touch config.py
-	@poetry install
+	@pip install .
