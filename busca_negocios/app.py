@@ -29,20 +29,15 @@ def generate_map(coords: tuple) -> folium:
     return st_folium(map, width=800)
 
 @st.cache_data
-def places(query:str, location:str) -> pd.DataFrame:
+def places(query:str='', location:str='') -> pd.DataFrame:
     geocode = gmaps.geocode(location)
-    response = gmaps.places(
-                            query = query if query else 'Lojas',
-                            location = geocode[-1].get('geometry').get('location'),
-                            radius = 1000,
-                            language = 'pt-BR'
-                        )
     ## Find places
-
     response = gmaps.places(
-    query='padaria', 
-    location=geocode[-1].get('geometry').get('location'), 
-    radius=1500)
+                           query=query, 
+                           location=geocode[-1].get('geometry').get('location'), 
+                           radius=1000, 
+                           language = 'pt-BR'
+                           )
     data = []
     data.append(response)
 
@@ -51,7 +46,7 @@ def places(query:str, location:str) -> pd.DataFrame:
         page_token = response.get('next_page_token')
         response = gmaps.places(page_token=page_token)
         data.append(response)
-        
+
     df = pd.json_normalize(data, record_path='results')
     return df
 
@@ -65,22 +60,21 @@ def place_details(place_id):
 def search(query, location):
     try:
         df = places(query=query, location=location)
-        df.rename(columns={'geometry.location.lat': 'lat', 'geometry.location.lng':'lon'}, inplace=True)    
-         
+        df.rename(columns={'geometry.location.lat': 'lat', 'geometry.location.lng':'lon'}, inplace=True)
         # Adding code so we can have map default to the center of the data
         places_details = []
         with st.spinner('Coletando dados....'):
             for index, place in df.iterrows():
                 details = place_details(place['place_id'])
                 places_details.append(details)
-        
+
         p = pd.concat(places_details)
         # st.dataframe(p[columns])
         midpoint = (np.average(df['lat']), np.average(df['lon']))
         # st.map(df, latitude='lat', longitude='lon',size=35, zoom=12)
         st.session_state.clicked = True
         return p[columns]
-    
+
     except Exception as e:
         st.warning(f'{type(e).__name__}, {e}')
 
